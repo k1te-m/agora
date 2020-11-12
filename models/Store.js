@@ -16,6 +16,10 @@ const StoreSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Product",
   },
+  imageURL: {
+    type: String,
+    trim: true
+  }
 });
 
 const Store = mongoose.model("Store", StoreSchema);
