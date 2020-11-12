@@ -19,6 +19,7 @@
   "homepage": "https://github.com/k1te-m/agora#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "express-handlebars": "^5.2.0",
     "mongoose": "^5.10.13",
     "morgan": "^1.10.0"
   }
