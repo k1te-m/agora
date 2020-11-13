@@ -1,7 +1,7 @@
 $(document).ready(() => {
   const loginForm = $("#loginForm");
   const userEmail = $("#userName");
-  const password = $("password");
+  const password = $("#userPass");
 
   loginForm.on("submit", (event) => {
     event.preventDefault();
@@ -25,11 +25,11 @@ $(document).ready(() => {
       email: email,
       password: password,
     })
-      .then(() => {
+     .then(() => {
         window.location.replace("/");
       })
-      .catch((error) => {
+     .catch((error) => {
         console.log(error);
-      });
+    });
   }
 });
