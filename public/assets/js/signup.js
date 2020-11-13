@@ -8,11 +8,10 @@ $(document).ready(() => {
   signUpForm.on("submit", (event) => {
     event.preventDefault();
     const userData = {
-      name: userName.val().trim(),
-      email: emailInput.val().trim(),
-      password: passwordInput.val().trim(),
+      name: userName.val(),
+      email: emailInput.val(),
+      password: passwordInput.val(),
     };
-    console.log(userData);
 
     signUp(userData.name, userData.email, userData.password);
     userName.val("");
@@ -27,8 +26,9 @@ $(document).ready(() => {
       password: password,
     };
     console.log(obj);
-    $.post("/api/signup", obj).then(() => {
-      window.location.replace("/");
-    });
+    $.post("/api/signup", obj)
+     .then(() => {
+       window.location.replace("/");
+     })
   }
 });
