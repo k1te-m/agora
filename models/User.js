@@ -21,6 +21,14 @@ const UserSchema = new Schema({
     trim: true,
     required: `Please enter a password.`,
   },
+  accessLevel: {
+    type: Number,
+    default: 10
+  },
+  joinDate: {
+    type: Date,
+    default: Date.now
+  }
 });
 
 UserSchema.pre("save", function (next) {
@@ -38,12 +46,10 @@ UserSchema.pre("save", function (next) {
   });
 });
 
-UserSchema.methods.comparePassword = function (userPassword, cb) {
-  bcrypt.compare(userPassword, this.password, function (error, isMatch) {
-    if (error) return cb(error);
-    cb(null, isMatch);
-  });
+UserSchema.methods.comparePassword = function (userPassword) {
+  return bcrypt.compareSync(userPassword, this.password);
 };
+
 
 const User = mongoose.model("User", UserSchema);
 
