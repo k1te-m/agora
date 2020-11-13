@@ -18,11 +18,22 @@ apiRouter.post("/api/signup", (req, res) => {
       })
 })
 
-apiRouter.post("/api/login", passport.authenticate("local"), (req, res) => {
-    res.json({
-        email: req.user.email,
-        id: req.user.id
+apiRouter.post("/api/login", (req, res, next) => {
+    passport.authenticate("local", function(error, user, info) {
+        if (err) {
+            return res.status(400).json({errors: error});
+        }
+        if (!user) {
+            return res.status(400).json({errors: "User not found!"});
+        }
+        req.logIn(user, function(error) {
+            if (error) {
+                return res.status(400).json({errors: error});
+            }
+            return res.status(200).json({ success: `Logged in ${user.id}`});
+        })
     });
-});
+})
+
 
 module.exports = apiRouter;
