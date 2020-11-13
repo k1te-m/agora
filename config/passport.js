@@ -1,35 +1,30 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
-const db = require("../models/index");
+const User = require("../models/User");
+const bcrypt = require("bcryptjs");
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+  User.findById(id, (error, user) => {
+    done(error, user);
+  });
+});
 
 passport.use(
-  new LocalStrategy(
-    {
-      usernameField: "email",
-    },
-    (email, password, done) => {
-      db.User.find({ email: email }).then((dbUser) => {
-        if (!dbUser) {
-          return done(null, false, {
-            message: "Incorrect email.",
-          });
-        } else if (!dbUser.validPassword(password)) {
-          return done(null, false, {
-            message: "Incorrect password.",
-          });
-        }
-        return done(null, dbUser);
-      });
-    }
-  )
+  new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
+    User.findOne({ email: email }).then((user) => {
+      if (!user) {
+        return done(null, false, {
+          message: "Incorrect email.",
+        });
+      } else {
+        User.comparePassword(user.password, cb);
+      }
+    });
+  })
 );
-
-passport.serializeUser((user, cb) => {
-  cb(null, user);
-});
-
-passport.deserializeUser((obj, cb) => {
-  cb(null, obj);
-});
 
 module.exports = passport;
