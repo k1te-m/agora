@@ -21,10 +21,11 @@ $(document).ready(() => {
   });
 
   function loginUser(email, password) {
-    $.post("/api/login", {
+    let obj = {
       email: email,
-      password: password,
-    })
+      password: password
+    }
+    $.post("/api/login", obj)
      .then(() => {
         window.location.replace("/");
       })
